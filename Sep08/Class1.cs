@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,41 +32,64 @@ namespace Sep08
         {
             get;
             set;
+
         }
-        
-        List<Employee> p = new List<Employee>();
-        public Dept Adding(Dept t)
+
+        public List<Dept> Addition(List<Dept> me,List<Employee> m)
         {
-           
-           
-            if(p.Count <= 10)
+            
+            Dept mot = new Dept();
+            Console.WriteLine("Enter the Department No");
+            mot.DeptNo = Convert.ToInt32(Console.ReadLine());
+            Func<List<Dept>, int, Boolean> K = (i,j)=>
             {
-                Employee m = new Employee();
-                Console.WriteLine("enter the employee no");
-                m.EmployeeNo = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter the name");
-                m.Empname = Console.ReadLine();
-                Console.WriteLine("Enter the dept no");
-                m.Deptno = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter the salary");
-                m.Salary = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Enter the manager");
-                m.Manager = Console.ReadLine();
-
-
-
-                p.Add(m);
-                t.prod = p;
-                return t;
+                bool status = false;
+                foreach(var item in i)
+                {
+                    if (item.DeptNo == j)
+                    {
+                        status=true;
+                        break;
+                    }
+                }
+                return status;
+            };
+            if (!K(me, mot.DeptNo))
+            {
+                Console.WriteLine("Enter department name");
+                mot.DeptName = Console.ReadLine();
+                Console.WriteLine("Enter the location");
+                mot.Location = Console.ReadLine();
+                mot.prod = m.Where(x => x.Deptno == mot.DeptNo).ToList();
+                me.Add(mot);
+                return me;
             }
             else
             {
+                mot.prod = m.Where(x => x.Deptno == mot.DeptNo).ToList();
+                return me;
+            }
 
-                Console.WriteLine("You can't add more than 10 in a dept");
-                return t;
-              
+        }
+
+        public void display(List<Dept> p)
+        {
+            Console.WriteLine("Enter the dept number you want to see");
+            int f = Convert.ToInt32(Console.ReadLine());
+            foreach (var item in p)
+            {
+                if (item.DeptNo == f)
+                {
+                    Console.WriteLine($"Dept no is {item.DeptNo}  name is {item.DeptName} and Location is {item.Location}\n");
+                    Console.WriteLine("Employees working under this department");
+                    foreach (var ite in item.prod)
+                    {
+                        Console.WriteLine($"{ite.Empname}\n");
+                    }
+                }
             }
         }
+    
        
        
     }
@@ -98,6 +122,34 @@ namespace Sep08
         {
             get;
             set;
+        }
+        public List<Employee> Adding(List<Employee> m)
+        {
+
+            Employee mp = new Employee();
+            Console.WriteLine("enter the employee no");
+            mp.EmployeeNo = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the name");
+            mp.Empname = Console.ReadLine();
+            Console.WriteLine("Enter the dept no");
+            mp.Deptno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the salary");
+            mp.Salary = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the manager");
+            mp.Manager = Console.ReadLine();
+            int yup=m.Where(x=>x.Deptno==mp.Deptno).Count();
+            if (yup < 10)
+            {
+                m.Add(mp);
+                return m;
+            }
+            else
+            {
+                Console.WriteLine("You cannot add more than 10 persons in 1 department");
+                return m;
+
+            }
+            
         }
         public List<Employee> Edit(int EmpId, List<Employee> m)
         {

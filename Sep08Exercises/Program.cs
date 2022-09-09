@@ -27,11 +27,12 @@ namespace Sep08Exercises
             if (ps(data))
             {
                 List<Employee> m = new List<Employee>();
+                List<Dept> m2 = new List<Dept>();
             earn:
                 Console.WriteLine(" 1.Add\n 2.Delete\n 3.Edit");
                 int y = Convert.ToInt32(Console.ReadLine());
 
-                Dept CS = new Dept();
+               
 
 
 
@@ -39,22 +40,9 @@ namespace Sep08Exercises
                 switch (y)
                 {
                     case 1:
-
-                        Console.WriteLine("Enter deptno");
-                        CS.DeptNo = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("DeptName");
-                        CS.DeptName = Console.ReadLine();
-                        Console.WriteLine("Location of department");
-                        CS.Location = Console.ReadLine();
                     start:
-                        numb s1 = new numb(CS.Adding);
-                        CS = s1(CS);
-                        foreach (Employee e in CS.prod)
-                        {
-                            if (!m.Contains(e))
-                                m.Add(e);
-
-                        }
+                        Employee mu = new Employee(); 
+                         m=mu.Adding(m);
                         Console.WriteLine("Enter Yes to add further");
                         string mk = Console.ReadLine();
                         if (mk == "Yes")
@@ -91,6 +79,10 @@ namespace Sep08Exercises
                 {
                     goto earn;
                 }
+                Console.WriteLine("Add back in to the departments");
+                Dept tu = new Dept();
+                m2=tu.Addition(m2, m);
+                tu.display(m2);
             }
             else
             {
